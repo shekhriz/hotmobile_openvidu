@@ -1,0 +1,33 @@
+<ion-content padding text-center>
+  <div class="scroll-content">
+    <ion-list>
+      <div class="logo">
+        <img src="https://d2ue829my6ap69.cloudfront.net/images/Logo_white.png" alt="">
+      </div>
+
+       <ion-item class="login_body" *ngIf='!isOTP'>
+        <ion-input type="email" placeholder='Please enter email address' [(ngModel)]="email"></ion-input>
+      </ion-item> 
+      
+    
+      <ion-item class="login_body" *ngIf='isOTP'>
+        <ion-input type="number" placeholder='Please enter OTP' [(ngModel)]="otp"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <button *ngIf='!isOTP' class="loginButton" ion-button full color='light' (click)="genarateOTP()">Generate OTP</button>
+    <div class="regOtp" *ngIf='!isOTP'>
+      <a (click)="connectUs(3)">Need help ? click me</a>
+    </div>
+
+    <!-- <button *ngIf='isOTP' class="loginButton" ion-button full color='light' (click)="login()">Login</button> -->
+    <button *ngIf='isOTP' class="loginButton" ion-button full color='light' routerLink="/SelectRequirement"  routerDirection="forward" (click)="login()">Login</button>
+    <div class="regOtp" *ngIf='isOTP'>
+      <a (click)="reGenarateOTP()">Resend OTP</a>
+    </div>
+
+    <!-- <ion-footer>
+      <img src="https://d2ue829my6ap69.cloudfront.net/images/pwdby.png" alt="">
+    </ion-footer> -->
+  </div>
+</ion-content>

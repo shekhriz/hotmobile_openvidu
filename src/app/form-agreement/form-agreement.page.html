@@ -1,0 +1,43 @@
+<ion-header>
+  
+    <div class="header">
+      <div class="left"></div>
+      <div class="center">
+        <img src="https://d2ue829my6ap69.cloudfront.net/images/Logo_white.png" alt="">
+      </div>
+      <div class="rigth">
+          <ion-icon ios="ios-power" md="md-power"     (click)="logoutAlert()"></ion-icon>
+      </div>
+    </div>
+    <ion-toolbar >
+      <h2>
+        Hooked on TalentTM Video Recording Release Form
+      </h2>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class="dataScroll">
+          
+      <span class="para">By clicking the agree button you acknowledge that this Video Screening session will be recorded and
+          I enter into the following agreement (this “Agreement”) with Accion Labs,
+          Inc. (“Company”). I hereby grant permission to Company to the rights of my image,
+          in video or still, and of the likeness and sound of my voice as recorded, on audio or video tape,
+          during the sessions for the Hooked on Talent<sup>TM</sup> program.
+      </span><span class="para">I understand that by agreeing to allow Company to video me during the screening process associated
+          with Hooked on Talent<sup>TM</sup>, Company will capture video including my name, likeness, image,
+          voice, appearance, and responses (“Video”).
+      </span>
+      <span class="para">I grant Company the right to disseminate Video to its Technical Screeners, Recruiters, or Clients. Company has complete ownership of the Video, including copyright interests.</span>
+      <span class="para">Company agrees to not further disseminate Video outside of what is required for the screening process. I expressly release Company from and against any and all claims which I have or may have for invasion of privacy, defamation, or any other cause of action arising out of production, distribution, or screening of Video. I agree to indemnify Company of any wrong-doing on the part of any Technical Screener. Liability for such behavior will remain the sole responsibility of the Technical Screener.</span>
+      <span class="para">I have the right to enter into this Agreement and am not restricted by commitments to third parties.</span>
+      <span class="para">Company has no financial commitment or obligations to me as a result of this Agreement.</span>
+      <span class="para">I have read, understand and agree to all of the above and that the rights granted Company herein are perpetual and worldwide:</span>
+  </div>
+</ion-content>
+<ion-footer class="commonFooter">
+  <button id="btn1" (click)='agree()'>Agree</button>
+  <button id="btn2" (click)='disagree()'>Disagree</button>
+  
+</ion-footer>

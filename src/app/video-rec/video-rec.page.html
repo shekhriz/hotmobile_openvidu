@@ -1,0 +1,70 @@
+<ion-app>
+
+  <ion-header>
+    <ion-toolbar color="dark">
+      <div class="center">
+        <img src="https://d2ue829my6ap69.cloudfront.net/images/Logo_white.png" alt="">
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content padding *ngIf="!session">
+
+    <!-- <div id="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png" /></div> -->
+    <h1 align="center" id="title">Join a video session</h1>
+    <ion-item>
+      <ion-label position="floating">Video Question</ion-label>
+      <ion-input [(ngModel)]="myUserName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Session</ion-label>
+      <ion-input [(ngModel)]="mySessionId"></ion-input>
+    </ion-item>
+
+    <ion-button id="join-button" [disabled]="!mySessionId && !myUserName" (click)="joinSession()"  expand="block" shape="round"
+      color="primary">
+      <ion-icon slot="start" name="videocam"></ion-icon>
+      Join
+    </ion-button>
+
+    <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button id="settings-button" [disabled]="!mySessionId && !myUserName" (click)="presentSettingsAlert()"
+        size="small" color="dark">
+        <ion-icon name="settings"></ion-icon>
+      </ion-fab-button>
+    </ion-fab> -->
+
+  </ion-content>
+
+  <ion-content  *ngIf="session">
+   
+    <ion-grid  >
+      <!--Subscribers and Publishers-->
+      <ion-row>
+        <ion-col >
+          <div *ngIf="publisher"   class="stream-container">
+            <user-video [streamManager]="publisher">
+               
+            </user-video> 
+            <h1 text-center class="timer">
+              {{time}}
+            </h1>
+          </div>
+         
+        </ion-col>
+
+      </ion-row>
+     
+    </ion-grid>
+   
+   
+     <div >
+     
+      <button id="btn2" (click)="leaveSession()">
+        <span class="button-inner2">Finish</span>
+        <div class="button-effect"></div>
+      </button>
+    </div>
+  </ion-content>
+
+</ion-app>

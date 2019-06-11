@@ -1,0 +1,115 @@
+
+<ion-header>
+  <ion-toolbar hideBackButton>
+      <div class="header">
+        <div class="left"></div>
+        <div class="center">
+          <img src="https://d2ue829my6ap69.cloudfront.net/images/Logo_white.png" alt="">
+        </div>
+        <div class="rigth">
+            <ion-icon ios="ios-power" md="md-power"     (click)="logoutAlert()"></ion-icon>
+        </div>
+      </div>
+    </ion-toolbar>
+</ion-header>
+   
+  <ion-content padding>
+    <div class="_list" >
+      <div *ngIf='questObjDisplay.type == "subjective"'>
+        <span class="question">{{questObjDisplay.no}}. {{questObjDisplay.questionName}}</span>
+        <div class="question-container" *ngIf='!questObjDisplay.solved'>
+          <textarea placeholder="Please write answer here..."class="border" name="name" rows="10" [(ngModel)]="questObjDisplay.response"></textarea>
+        </div>
+        <div class="submitRes" *ngIf='questObjDisplay.solved'>
+          <span>Response Submitted</span>
+        </div>
+      </div>
+  
+      <div *ngIf='questObjDisplay.type == "objective"'>
+        <span class="question">{{questObjDisplay.no}}. {{questObjDisplay.questionName}}</span>
+        <div class="question-container" *ngIf='!questObjDisplay.solved'>
+          <ion-radio-group [(ngModel)]="questObjDisplay.response">
+              <ion-item *ngIf='questObjDisplay.option1 != null'>
+                <ion-label>{{questObjDisplay.option1}}</ion-label>
+                <ion-radio value="{{questObjDisplay.option1}}" color='dark'></ion-radio>
+              </ion-item>
+              <ion-item *ngIf='questObjDisplay.option2 != null'>
+                <ion-label>{{questObjDisplay.option2}}</ion-label>
+                <ion-radio value="{{questObjDisplay.option2}}" color='dark'></ion-radio>
+              </ion-item>
+              <ion-item *ngIf='questObjDisplay.option3 != null'>
+                <ion-label>{{questObjDisplay.option3}}</ion-label>
+                <ion-radio value="{{questObjDisplay.option3}}" color='dark'></ion-radio>
+              </ion-item>
+              <ion-item *ngIf='questObjDisplay.option4 != null'>
+                <ion-label>{{questObjDisplay.option4}}</ion-label>
+                <ion-radio value="{{questObjDisplay.option4}}" color='dark'></ion-radio>
+              </ion-item>
+              <ion-item *ngIf='questObjDisplay.option5 != null'>
+                <ion-label>{{questObjDisplay.option5}}</ion-label>
+                <ion-radio value="{{questObjDisplay.option5}}" color='dark'></ion-radio>
+              </ion-item>
+              <ion-item *ngIf='questObjDisplay.option6 != null'>
+                <ion-label>{{questObjDisplay.option6}}</ion-label>
+                <ion-radio value="{{questObjDisplay.option6}}" color='dark'></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+        </div>
+        <div class="submitRes" *ngIf='questObjDisplay.solved'>
+          <span>Response Submitted</span>
+        </div>
+      </div>
+  
+      <div *ngIf='questObjDisplay.type == "video"'>
+        <span class="question">{{questObjDisplay.no}}. {{questObjDisplay.questionName}}</span>
+        <div class="question-container" *ngIf='!questObjDisplay.solved'>
+          <div class="tempSpan" *ngIf="publisher">
+            <h2>Video Question</h2>
+              
+                <user-video [streamManager]="publisher">
+                   
+                </user-video> 
+                <h1 text-center class="timer">
+                  {{time}}
+                </h1>
+               
+          </div> 
+          
+          
+        </div>
+       
+        <div class="submitRes" *ngIf='questObjDisplay.solved'>
+          <span>Response Submitted</span>
+        </div>
+        <div class="float-right" *ngIf='this.status =="started"' >
+          <button ion-button class="bc-info"  (click)="leaveSession()">Save</button>
+        </div> 
+      </div>
+    
+      <div class="float-right" *ngIf='questObjDisplay.type != "video" && !questObjDisplay.solved'>
+        <button ion-button class="bc-info" (click)="uploadTechnicalQuestion()">Save</button>
+      </div>
+    </div>
+    
+    <ion-item>
+      <ion-label position="floating">Session</ion-label>
+      <ion-input [(ngModel)]="myUserName"></ion-input>
+      <ion-input [(ngModel)]="mySessionId"></ion-input>
+    </ion-item>
+     
+    <div class="grp-btn">
+           <button ion-button color='light' *ngFor="let question of questions" (click)="toggleClass(question)" [disabled]="!mySessionId && !myUserName "
+            [ngClass]="{'btn-active': question.qstatus,'btn-answered':succ.indexOf(question.no) > -1,'btn-skipped': seen.indexOf(question.no) > -1}">{{question.no}}
+            <ion-icon *ngIf='question.type == "video" ' ios="ios-videocam" md="md-videocam"  (click)="joinSession()"></ion-icon>
+            <ion-icon *ngIf='question.type == "subjective" || question.type == "objective"' ios="ios-create" md="md-create"  ></ion-icon>
+          </button>   
+    </div>
+   
+  
+   
+
+  </ion-content>
+  <ion-footer>
+      <button ion-button full color='dark'(click)="finishInterview()">Finish</button>
+  </ion-footer>
+  

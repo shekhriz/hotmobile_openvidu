@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar hideBackButton>
+    <div class="header">
+      <div class="left"></div>
+      <div class="center">
+        <img src="https://d2ue829my6ap69.cloudfront.net/images/Logo_white.png" alt="">
+      </div>
+      <div class="rigth">
+        <ion-icon ios="ios-close" md="md-close" (click)="closeModal()"></ion-icon>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <div class="modal_body" *ngIf='code == 1'>
+      <div class="heading">
+        <h1>How it works</h1>
+      </div>
+      <div class="video-container">
+        <video id="myVideo3" oncontextmenu="return false;" controlsList="nodownload"  id="introVideo" poster="../../assets/imgs/introPoster.jpg" controls="true">
+           <source src="https://d2ue829my6ap69.cloudfront.net/videos/AccionInro.mp4" type="video/mp4" />
+           Your browser does not support the video tag.
+       </video>
+      </div>
+    </div>
+    <div class="modal_body" *ngIf='code == 2'>
+      <div class="heading">
+        <h1>Do's and Dont's</h1>
+      </div>
+      <div class="video-container">
+        <video id="myVideo4" oncontextmenu="return false;" controlsList="nodownload"  id="introVideo" poster="../../assets/imgs/dondonts.jpg" controls="true">
+           <source src="https://d2ue829my6ap69.cloudfront.net/videos/HoT_video.mp4" type="video/mp4" />
+           Your browser does not support the video tag.
+       </video>
+      </div>
+    </div>
+    <div class="modal_body" *ngIf='code == 3'>
+      <div class="form-container">
+        <div class="scroll-content">
+          <div class="heading">
+            <h1>Contact Us</h1>
+          </div>
+          <ion-item>
+            <ion-label floating>Name<span class="astrick">*</span></ion-label>
+            <ion-input type="text" [(ngModel)]="name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Email<span class="astrick">*</span></ion-label>
+            <ion-input type="email" [(ngModel)]="email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Phone<span class="astrick">*</span></ion-label>
+            <ion-input type="number" [(ngModel)]="phone"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Subject<span class="astrick">*</span></ion-label>
+            <ion-input type="text" [(ngModel)]="subject"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Message<span class="astrick">*</span></ion-label>
+             <ion-textarea rows="2" maxLength="100" [(ngModel)]="message"></ion-textarea>
+          </ion-item>
+          <div class="submitBTN">
+            <button ion-button full color='dark' (click)="savaData()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</ion-content>

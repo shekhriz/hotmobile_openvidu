@@ -1,0 +1,142 @@
+ion-header{
+    background-color: #2c2e2f !important;
+    width:100%;
+    .header{
+        display: flex !important;
+        text-align: center;
+       
+        .left{
+          flex: 1;
+        }
+        .center{
+          flex: 2;
+          img{
+            height: 43px;
+          }
+        }
+        .rigth{
+          flex: 1;
+          ion-icon{
+            color: #fff;
+            font-size: 30px;
+            float: right;
+            padding: 10px;
+          }
+        }
+      }
+}
+//////@at-root
+._list{
+  border-bottom: solid 1px #424242;
+  padding-bottom: 20px;
+  min-height: 370px;
+  .question{
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .question-container{
+    margin-top: 20px;
+    min-height: 250px;
+    .tempSpan{
+      text-align: center;
+      border: solid 1px #f4f4f4;
+     // padding: 40px;
+      h2{
+        font-size: 18px;
+      }
+      button{
+        min-width: 100px;
+        text-transform: none;
+      }
+     
+    }
+    .border{
+      border: solid 1px #f4f4f4;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      width: 100%;
+      padding: 5px;
+      resize: none;
+      font-size: 16px;
+    }
+    input[type=text]:focus, textarea:focus {
+      box-shadow:0px 0px 5px #424242;
+      border: 1px solid #424242;
+    }
+  }
+  .submitRes{
+    text-align: center;
+    margin-top: 50px;
+    span{
+      font-size: 20px;
+    }
+  }
+  .float-right{
+    text-align: right;
+    button{
+      width: 100px;
+      text-transform: none;
+     
+        background-color: #40bbea !important;
+        color: white;
+        height: 36px;
+        border-radius: 3px;
+        font-size: 15px;
+        padding-top: 0px;
+      }
+    
+  }
+
+}
+.grp-btn{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+ 
+ 
+  button{
+    padding: 13px;
+    margin: 5px;
+    width: 50px;
+    text-transform: none;
+    font-weight: bold;
+    height: 40px;
+    display: inline-flex;
+    width: 56px;
+    font-size: 16px;
+    border-radius: 2px;
+   // text-align: center;
+  
+    ion-icon{
+      margin-left: 3px;
+      font-size: 23px;
+      margin-top: -4px;
+    }
+  }
+
+  .btn-active{
+    background-color: #40bbea !important;
+    color: #fff;
+  }
+  .btn-skipped{
+    background-color: #e13838 !important;
+    color: #fff;
+  }
+  .btn-answered{
+    background-color: green !important;
+    color: #fff;
+  }
+ 
+
+}
+
+ion-footer{
+  button{
+    width: 100%;
+    height: 35px;
+    background-color: #2c2e2f;
+    color:white;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+}

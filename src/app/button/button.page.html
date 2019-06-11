@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ionic 4 Modal Popup Example
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content text-center>
+  <div class="ion-padding">
+    <h2>Click button to open modal</h2>
+  </div>
+ 
+    <ion-button (click)="openModal()">Open Modal</ion-button>
+ 
+    <p *ngIf="dataReturned">{{dataReturned}}</p>
+ 
+ 
+</ion-content>

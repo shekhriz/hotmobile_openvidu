@@ -1,0 +1,89 @@
+<ion-header>
+    <ion-toolbar hideBackButton>
+        <div class="header">
+          <div class="left"></div>
+          <div class="center">
+            <img src="https://d2ue829my6ap69.cloudfront.net/images/Logo_white.png" alt="">
+          </div>
+          <div class="rigth">
+              <ion-icon ios="ios-power" md="md-power"     (click)="logoutAlert()"></ion-icon>
+          </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    
+  <ion-list>
+    
+    <div class="_list" *ngFor="let ques of questions;let i = index">
+       <div class="quest-block" *ngIf='ques.type == "subjective"'>
+        <label>{{i+1}}. {{ques.questionName}}</label>
+        <textarea placeholder="Please write answer here..."class="border" name="name" rows="4" [(ngModel)]="ques.response"></textarea>
+      </div> 
+      <div class="quest-block" *ngIf='ques.type == "objective"'>
+          <label>{{i+1}}. {{ques.questionName}}</label>
+            <ion-radio-group  [(ngModel)]="ques.response" >
+                <ion-item *ngIf='ques.option1 != null'>
+                    <ion-label>{{ques.option1}}</ion-label>
+                    <ion-radio value="{{ques.option1}}" color='dark'></ion-radio>
+                </ion-item>
+                <ion-item *ngIf='ques.option2 != null'>
+                    <ion-label>{{ques.option2}}</ion-label>
+                    <ion-radio value="{{ques.option2}}" color='dark'></ion-radio>
+                </ion-item>
+                <ion-item *ngIf='ques.option3 != null'>
+                    <ion-label>{{ques.option3}}</ion-label>
+                    <ion-radio value="{{ques.option3}}" color='dark'></ion-radio>
+                  </ion-item>
+                  <ion-item *ngIf='ques.option4 != null'>
+                    <ion-label>{{ques.option4}}</ion-label>
+                    <ion-radio value="{{ques.option4}}" color='dark'></ion-radio>
+                  </ion-item>
+                  <ion-item *ngIf='ques.option5 != null'>
+                    <ion-label>{{ques.option5}}</ion-label>
+                    <ion-radio value="{{ques.option5}}" color='dark'></ion-radio>
+                  </ion-item>
+                  <ion-item *ngIf='ques.option6 != null'>
+                    <ion-label>{{ques.option6}}</ion-label>
+                    <ion-radio value="{{ques.option6}}" color='dark'></ion-radio>
+                  </ion-item>                    
+            </ion-radio-group>
+      </div>
+
+
+      <!-- <div class="quest-block" *ngIf='ques.type == "objective"'>
+        <label>{{i+1}}. {{ques.questionName}}</label>
+        <ion-list  radio-group [(ngModel)]="ques.response">
+            <ion-item *ngIf='ques.option1 != null'>
+              <ion-label>{{ques.option1}}</ion-label>
+              <ion-select-option value="{{ques.option1}}" color='dark'></ion-select-option>
+            </ion-item>
+            <ion-item *ngIf='ques.option2 != null'>
+              <ion-label>{{ques.option2}}</ion-label>
+              <ion-select-option value="{{ques.option2}}" color='dark'></ion-select-option>
+            </ion-item>
+             <ion-item *ngIf='ques.option3 != null'>
+              <ion-label>{{ques.option3}}</ion-label>
+              <ion-radio value="{{ques.option3}}" color='dark'></ion-radio>
+            </ion-item>
+            <ion-item *ngIf='ques.option4 != null'>
+              <ion-label>{{ques.option4}}</ion-label>
+              <ion-radio value="{{ques.option4}}" color='dark'></ion-radio>
+            </ion-item>
+            <ion-item *ngIf='ques.option5 != null'>
+              <ion-label>{{ques.option5}}</ion-label>
+              <ion-radio value="{{ques.option5}}" color='dark'></ion-radio>
+            </ion-item>
+            <ion-item *ngIf='ques.option6 != null'>
+              <ion-label>{{ques.option6}}</ion-label>
+              <ion-radio value="{{ques.option6}}" color='dark'></ion-radio>
+            </ion-item> 
+          </ion-list>
+      </div> -->
+    </div>
+  </ion-list>
+</ion-content>
+<ion-footer>
+    <button ion-button full color='dark' (click)="gotoRateskill()">Next</button>
+</ion-footer>

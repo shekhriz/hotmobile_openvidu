@@ -1,0 +1,44 @@
+ <ion-header>
+    <ion-toolbar hideBackButton>
+        <div class="header">
+          <div class="left"></div>
+          <div class="center">
+            <img src="https://d2ue829my6ap69.cloudfront.net/images/Logo_white.png" alt="">
+          </div>
+          <div class="rigth">
+              <ion-icon ios="ios-power" md="md-power"     (click)="logoutAlert()"></ion-icon>
+          </div>
+        </div>
+      </ion-toolbar>
+      
+</ion-header> 
+
+
+    <ion-content padding>
+        <div class="dash_body">
+          <div class="top-container">
+            <span>Hello <strong>{{candidate.candidates.firstName}} {{candidate.candidates.lastName}},</strong></span><br>
+            <span>Welcome to HookedOn Talent</span>
+          </div>
+      
+          <div class="video-container">
+            <video id="myVideo1" *ngIf="candidate.reqDetailsForApp.reqVideoLink == null" oncontextmenu="return false;" controlsList="nodownload"  poster="../../assets/imgs/introPoster.jpg" controls="true">
+               <source src="https://d2ue829my6ap69.cloudfront.net/videos/AccionInro.mp4" type="video/mp4" />
+               Your browser does not support the video tag.
+           </video>
+           <video id="myVideo2" *ngIf="candidate.reqDetailsForApp.reqVideoLink != null" oncontextmenu="return false;" controlsList="nodownload"  controls="true">
+              <source src="{{candidate.reqDetailsForApp.reqVideoLink+'.mp4'}}" type="video/mp4" />
+              Your browser does not support the video tag.
+          </video>
+          </div>
+      
+          <div class="bottom-container">
+            <button class="bigBtn" ion-button full color='dark' (click)="gotoSkillsRatePage()">Begin Interview</button>
+            <button class="smallBtn" ion-button full color='light' (click)="openModal(1)">How it works</button>
+            <button class="smallBtn" ion-button full color='light' (click)="openModal(2)">Do's and Dont's</button>
+            <button class="smallBtn" ion-button full color='light' (click)="openModal(3)">Contact Us</button>
+          </div>
+      
+        </div>
+      </ion-content>
+
