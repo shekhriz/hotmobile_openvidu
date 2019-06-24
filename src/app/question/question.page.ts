@@ -1,6 +1,9 @@
 import { Component, OnInit,OnDestroy ,HostListener} from '@angular/core';
 import { Platform, NavController,AlertController,ModalController,LoadingController } from '@ionic/angular';
-import { RestService } from '../providers/rest.service';
+//import { RestService } from '../providers/rest.service';
+//import { RestService } from '../rest';
+import { RestService } from '../rest';
+
 import { Router } from '@angular/router';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -27,7 +30,10 @@ export class QuestionPage {
   currentQues:number = 1;
   seen:Array<Object> = [];
   succ:Array<Object> = [];
-  OPENVIDU_SERVER_URL = 'https://' + '172.16.19.3' + ':4443';
+ // video_url:any;
+  stop_recording:any;
+
+  OPENVIDU_SERVER_URL = 'https://' + 'ec2-54-198-22-192.compute-1.amazonaws.com' + ':4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
   ANDROID_PERMISSIONS = [
@@ -69,7 +75,7 @@ export class QuestionPage {
   blankTime = "00:00.00"
   time = "00:00.00"
   status:string;
-
+  disabled:boolean=false;
   constructor(public navCtrl: NavController,public restProvider: RestService,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
@@ -82,7 +88,7 @@ export class QuestionPage {
              private platform: Platform,
              private splashScreen: SplashScreen,
              private statusBar: StatusBar,
-      
+              
 
               ) {
                 this.candidate = this.restProvider.getCandidate();
@@ -130,8 +136,19 @@ ngOnDestroy() {
    // this.leaveSession();
 }
 
-joinSession(num) {
-    // --- 1) Get an OpenVidu object ---
+async joinSession(num) {
+ 
+  let loading =await this.loadingCtrl.create({
+    duration: 3000,
+    showBackdrop:false,
+    cssClass:'sa',
+    spinner: null,
+    message:`
+    <div class="custom-spinner-container">
+    <img class="loading" width="50px" height="50px" src="assets/images/loader2.gif" />
+  </div>`
+  });
+  await loading.present(); 
     this.activeBTN = num;
     this.OV = new OpenVidu();
     console.log('this.OV',this.OV);
@@ -159,7 +176,7 @@ joinSession(num) {
             .connect(token, { clientData: this.myUserName })
             .then(() => {
               return new Promise((resolve, reject) => {
-                  const body = JSON.stringify({ session: this.mySessionId2,"recording": true,"outputMode": "INDIVIDUAL", "recordingLayout": "CUSTOM"});
+                  const body = JSON.stringify({ session: this.mySessionId2,"recording": true,  "hasAudio": true, "hasVideo": true,"recordingLayout": "CUSTOM"});
                   console.log('body',body);
                   const options = {
                       headers: new HttpHeaders({
@@ -175,11 +192,13 @@ joinSession(num) {
                               return observableThrowError(error);
                           }),
                       )
+                      
                       .subscribe((response) => {
                           console.log('response',response);
                           this.record_details = response;
                           this.recording_id = this.record_details.id;
                           this.status =this.record_details.status;
+                          console.log('record_details',this.record_details);
 
                           if(this.running) return;
                           if (this.timeBegan === null) {
@@ -213,14 +232,16 @@ joinSession(num) {
                               this.initPublisher();
                           }
                       });
-                
+                      
               });
                  
             })
             .catch(error => {
                 console.log('There was an error connecting to the session:', error.code, error.message);
             });
+            loading.dismiss();    
     });
+    this.disabled= true;
 }
 
     
@@ -459,52 +480,6 @@ createToken(sessionId): Promise<string> {
 }
 
 
-recordStart() {
-  
-    return new Promise((resolve, reject) => {
-        const body = JSON.stringify({ session: this.mySessionId2,"recording": true,"outputMode": "INDIVIDUAL", "recordingLayout": "CUSTOM"});
-        console.log('body',body);
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
-                'Content-Type': 'application/json',
-            }),
-        };
-        return this.httpClient
-            .post(this.OPENVIDU_SERVER_URL+'/api/recordings/start', body, options)
-            .pipe(
-                catchError((error) => {
-                    reject(error);
-                    return observableThrowError(error);
-                }),
-            )
-            .subscribe((response) => {
-                console.log('response',response);
-                this.record_details = response;
-                this.status =this.record_details.status;
-               // console.log('status',this.status);
-                console.log(' this.record_details', this.record_details);
-
-
-                this.recording_id = this.record_details.id;
-                if(this.running) return;
-                if (this.timeBegan === null) {
-                   // this.reset();
-                    this.timeBegan = new Date();
-                }
-                if (this.timeStopped !== null) {
-                  let newStoppedDuration:any = (+new Date() - this.timeStopped)
-                  this.stoppedDuration = this.stoppedDuration + newStoppedDuration;
-                }
-                this.started = setInterval(this.clockRunning.bind(this), 10);
-                  this.running = true;
-                  console.log('this.recordingid',this.recording_id);
-        
-                resolve(response['token']);
-            });
-      
-    });
-}
 
 
 leaveSession(sessionId) {
@@ -527,14 +502,50 @@ leaveSession(sessionId) {
       )
       .subscribe((response) => {
           console.log('response',response);
+          this.stop_recording = response;
+          console.log('this.stop_recording', this.stop_recording);
+
+          let video_url = this.stop_recording.url;
+          let json_obj = {
+            "mp4URL": this.stop_recording.url,
+            "questionId": this.questObjDisplay.id,
+            "uniqueId": this.candidate.positionCandidates.candidateLink
+          }
+          console.log('this.video_url',video_url);
+          console.log('this.json_obj',json_obj);
+      
+          this.restProvider.saveVideoRecording(json_obj)
+          .then(data => {
+          
+            console.log('video data-----',data);
+            console.log('video video_url-----',video_url);
+
+            this.questObjDisplay.solved = true;
+            this.succ.push(this.questObjDisplay.no);
+           
+            this.restProvider.showToast("Response saved successfully.","SUCCESS");
+            this.saveResponse();
+          },error => {
+              
+              this.restProvider.showToast("Something went wrong.","ERROR");
+              console.log(error);
+          });
+          this.disabled= false;
+
+          
           this.running = false;
           this.timeStopped = new Date();
-          clearInterval(this.started); 
+          clearInterval(this.started);   
+          this.stoppedDuration = 0;
+          this.timeBegan = null;
+          this.timeStopped = null;
+          this.time = this.blankTime;
+
           resolve(response['token']);
           if (this.session) {
               this.session.disconnect();
           }
-      
+          
           // Empty all properties...
           this.subscribers = [];
           delete this.publisher;
@@ -604,14 +615,15 @@ this.time =
 
 
 ///////////////vdo rec end//////////
-  async uploadVideo(qId,blob){
+  async uploadVideo(qId,video_url){
     let loading =await this.loadingCtrl.create({
       //content: 'Please wait...'
     });
     loading.present();
-    this.restProvider.saveVideoQuestion(this.candidate.positionCandidates.candidateLink,qId,blob)
+    //this.restProvider.saveVideoQuestion(this.candidate.positionCandidates.candidateLink,qId,this.video_url)
+    this.restProvider.saveVideoRecording(video_url)
     .then(data => {
-      console.log(data);
+      console.log('video recording saved',data);
       loading.dismiss();
       this.restProvider.showToast("Response saved successfully.","SUCCESS");
       this.saveResponse();

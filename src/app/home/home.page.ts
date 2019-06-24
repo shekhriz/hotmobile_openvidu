@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, NavController,LoadingController,ModalController } from '@ionic/angular';
 
-import { RestService } from '../providers/rest.service';
+//import { RestService } from '../providers/rest.service';
+import { RestService } from '../rest';
 
 @Component({
   selector: 'app-home',
@@ -17,8 +18,8 @@ export class HomePage{
     public modalCtrl : ModalController) {
   }
 
-  async genarateOTP(){
-    let loading = await this.loadingCtrl.create({
+   genarateOTP(){
+    let loading =  this.loadingCtrl.create({
       //content: 'Please wait...'
     });
 
@@ -31,17 +32,17 @@ export class HomePage{
       return;
     }
 
-    await loading.present();
+    //await loading.present();
     this.restProvider.getOTP(this.email)
     .then(data => {
       this.isOTP = true;
       this.emailBKP = this.email;
       this.email = "";
-      loading.dismiss();
+      //loading.dismiss();
       this.restProvider.showToast("OTP has been sent successfully to registered email.","SUCCESS");
       // console.log(data);
     },error => {
-        loading.dismiss();
+        //loading.dismiss();
         this.restProvider.showToast("Something went wrong.","ERROR");
         console.log(error);
     });
@@ -56,6 +57,7 @@ export class HomePage{
 
   async login(){
     let loading =await this.loadingCtrl.create({
+      duration: 15000,
      // content: 'Please wait...'
     });
     if(this.otp == undefined || this.otp == ""){
@@ -63,7 +65,7 @@ export class HomePage{
       return;
     }
 
-    await loading.present();
+   loading.present();
     let jsonData = {
       "emailId": this.emailBKP,
       "id": 0,
@@ -91,7 +93,7 @@ export class HomePage{
         return
       }
 
-      if(data.reqDetailsForApp.length == 1){
+      if(data.reqDetailsForApp.length == 1){ 
         let JsonData = {
           'reqDetailsForApp'      :  data.reqDetailsForApp[0],
           'candidates'            :  data.candidates,
@@ -100,9 +102,13 @@ export class HomePage{
         }
         this.getInterviewDetails(JsonData.positionCandidates.candidateLink,JsonData);
       }else{
+      
         this.restProvider.setRowData(data);
-        //this.navCtrl.push(SelectRequirementPage);
-        this.navCtrl.navigateForward('/SelectRequirement');
+       
+          this.navCtrl.navigateForward('/SelectRequirement');
+       
+        
+        
       }
     },error => {
         loading.dismiss();
@@ -125,20 +131,20 @@ export class HomePage{
             if(response.status=='Open'){
                 if(candidateProperty.linkValidity=='Active'){
                   this.restProvider.setCandidate(JsonData);
-                  this.navCtrl.navigateForward('/RegisterPage');
+                  this.navCtrl.navigateForward('/register');
                 }else if(candidateProperty.linkValidity=='InActive'){
                     if(candidateProperty.linkExpired == "true"){
                         let toast = {
                           reqName: JsonData.reqDetailsForApp.jobTitle,
                           status : 'interviewLinkExpired'
                         }
-                        this.navCtrl.navigateForward('/ShowStatusPage');
+                        this.navCtrl.navigateForward('/ShowStatus');
                     }else{
                         let toast = {
                           reqName: JsonData.reqDetailsForApp.jobTitle,
                           status : 'alreadyGivenInterview'
                         }
-                        this.navCtrl.navigateForward('/ShowStatusPage');
+                        this.navCtrl.navigateForward('/ShowStatus');
                     }
                 }
             }else if(response.status=='Closed'){
@@ -146,14 +152,14 @@ export class HomePage{
                   reqName: JsonData.reqDetailsForApp.jobTitle,
                   status : 'requirementClosed'
                 }
-                this.navCtrl.navigateForward('/ShowStatusPage');
+                this.navCtrl.navigateForward('/ShowStatus');
             }
           }else{
             let toast = {
               reqName: JsonData.reqDetailsForApp.jobTitle,
               status : 'candidateRemoved'
             }
-            this.navCtrl.navigateForward('/ShowStatusPage');
+            this.navCtrl.navigateForward('/ShowStatus');
           }
 
         },error => {

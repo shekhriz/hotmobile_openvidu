@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'VideoTimerModal', loadChildren: './video-timer-modal/video-timer-modal.module#VideoTimerModalPageModule' },
   { path: 'FormAgreement', loadChildren: './form-agreement/form-agreement.module#FormAgreementPageModule' },
   { path: 'PolicyAgreement', loadChildren: './policy-agreement/policy-agreement.module#PolicyAgreementPageModule' },
-  { path: 'divmodal', loadChildren: './divmodal/divmodal.module#DivmodalPageModule' },
+ 
   { path: 'button', loadChildren: './button/button.module#ButtonPageModule' },
   { path: 'example-modal', loadChildren: './example-modal/example-modal.module#ExampleModalPageModule' },
 

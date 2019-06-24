@@ -161,7 +161,18 @@ export class RestService {
           });
       });
     }
-  
+    
+    saveVideoRecording(video_url) {
+        return new Promise((resolve, reject) => {
+          this.http.post(this.apiUrl+'/hotlab/interview/candidateResponse/upload/videoInMp4', video_url,{
+            headers: new HttpHeaders().set('Content-Type', 'application/json')
+          }).subscribe(res => {
+              resolve(res);
+            }, (err) => {
+              reject(err);
+            });
+        });
+      }
     saveVideoQuestionByfile(uniqueId,qId,file) {
       console.log(file);
       return new Promise((resolve, reject) => {

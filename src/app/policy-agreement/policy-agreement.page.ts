@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RestService } from '../providers/rest.service';
+//import { RestService } from '../providers/rest.service';
+import { RestService } from '../rest';
+
 import { Platform, NavController,AlertController,ModalController,LoadingController } from '@ionic/angular';
 import { Router,ActivatedRoute } from '@angular/router';
 @Component({

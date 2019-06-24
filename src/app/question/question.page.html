@@ -69,6 +69,7 @@
                 <user-video [streamManager]="publisher">
                    
                 </user-video> 
+                
                 <h1 text-center class="timer">
                   {{time}}
                 </h1>
@@ -81,8 +82,8 @@
         <div class="submitRes" *ngIf='questObjDisplay.solved'>
           <span>Response Submitted</span>
         </div>
-        <div class="float-right" *ngIf='this.status =="started"' >
-          <button ion-button class="bc-info"  (click)="leaveSession()">Save</button>
+        <div class="float-right" *ngIf='this.status =="started"' (click)="leaveSession()" >
+          <button ion-button class="bc-info" [disabled]="!disabled" *ngIf='this.status !="available"' >Save</button>
         </div> 
       </div>
     
@@ -91,14 +92,14 @@
       </div>
     </div>
     
-    <ion-item>
+    <!-- <ion-item>
       <ion-label position="floating">Session</ion-label>
       <ion-input [(ngModel)]="myUserName"></ion-input>
       <ion-input [(ngModel)]="mySessionId"></ion-input>
-    </ion-item>
+    </ion-item> -->
      
     <div class="grp-btn">
-           <button ion-button color='light' *ngFor="let question of questions" (click)="toggleClass(question)" [disabled]="!mySessionId && !myUserName "
+           <button ion-button color='light' *ngFor="let question of questions" (click)="toggleClass(question)" [disabled]="disabled"
             [ngClass]="{'btn-active': question.qstatus,'btn-answered':succ.indexOf(question.no) > -1,'btn-skipped': seen.indexOf(question.no) > -1}">{{question.no}}
             <ion-icon *ngIf='question.type == "video" ' ios="ios-videocam" md="md-videocam"  (click)="joinSession()"></ion-icon>
             <ion-icon *ngIf='question.type == "subjective" || question.type == "objective"' ios="ios-create" md="md-create"  ></ion-icon>

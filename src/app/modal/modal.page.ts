@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, NavController,AlertController,ModalController,LoadingController,NavParams } from '@ionic/angular';
-import { RestService } from '../providers/rest.service';
+//import { RestService } from '../providers/rest.service';
 import { Router,ActivatedRoute } from '@angular/router';
+import { RestService } from '../rest';
 
 @Component({
   selector: 'app-modal',

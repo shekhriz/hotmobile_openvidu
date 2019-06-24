@@ -29,7 +29,9 @@ ion-header{
 }
 
 .modal_body{
+  z-index: 1;
   .heading{
+   
     border-bottom: solid 1px #f4f4f4;
     margin-top: 10px;
     h1{

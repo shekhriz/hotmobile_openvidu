@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, NavController,AlertController,ModalController,LoadingController } from '@ionic/angular';
-import { RestService } from '../providers/rest.service';
+//import { RestService } from '../providers/rest.service';
 import { Router } from '@angular/router';
 import { ModalPage } from '../modal/modal.page';
-import { DivmodalPage } from '../divmodal/divmodal.page';
-
+import { RestService } from '../rest';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +15,7 @@ export class RegisterPage  {
   candidate:any;
   vid1:any;
   vid2:any;
+  
   constructor(public navCtrl: NavController,public restProvider: RestService, public modalCtrl : ModalController,
   public alertCtrl: AlertController,
   public platform: Platform,
@@ -67,12 +67,14 @@ export class RegisterPage  {
     var data = {
       code : mCode
     };
+    
    console.log('mCode',mCode);
 
     const modal = await this.modalCtrl.create({
       component: ModalPage,
     componentProps: {value: mCode}
-      
+    
+    
     });
   modal.present();
   }

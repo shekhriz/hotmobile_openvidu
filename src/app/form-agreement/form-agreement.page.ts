@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, NavController,AlertController,ModalController,LoadingController } from '@ionic/angular';
-import { RestService } from '../providers/rest.service';
+//import { RestService } from '../providers/rest.service';
+import { RestService } from '../rest';
+
 import { Router ,ActivatedRoute} from '@angular/router';
 import { TouchSequence } from 'selenium-webdriver';
 @Component({

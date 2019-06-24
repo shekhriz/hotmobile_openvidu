@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RestService } from '../providers/rest.service';
+//import { RestService } from '../providers/rest.service';
+import { RestService } from '../rest';
+
 import { Platform, NavController,AlertController,ModalController,LoadingController } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import { Router } from '@angular/router';
@@ -51,6 +53,7 @@ export class SelectRequirementPage {
     }
  
     this.getInterviewDetails(JsonData.positionCandidates.candidateLink,JsonData);
+    
     this.restProvider.interviewAgreement( this.submissionType,this.data.candidates.candidateId)
                   .then((status:any) => {
                     this.details = status
@@ -70,7 +73,7 @@ export class SelectRequirementPage {
                         console.log('PolicyAgreementPage',this.details.PolicyAgreementPage);
 
                         }else if(this.details.videoAgreementStatus ==  "true" && this.details.emplyomentStatus ==  "true"){
-                          this.router.navigate(['/register']);
+                         this.router.navigate(['/register']);
 
                           //this.navCtrl.push(RegisterPage);
                         }
@@ -98,43 +101,42 @@ export class SelectRequirementPage {
   }
 
 
- async getInterviewDetails(uniqueId,JsonData){
+  getInterviewDetails(uniqueId,JsonData){
     console.log('uniqueId',uniqueId);
     console.log('JsonData',JsonData);
-    let loading =await this.loadingCtrl.create({
-     // content: 'Please wait...'
+    let loading = this.loadingCtrl.create({
+      
     });
-    loading.present();
+    //loading.present();
     this.restProvider.getInterviewDetails(uniqueId)
     .then((candidateProperty:any) => {
       this.restProvider.getInterviewValidity(uniqueId)
         .then((response:any) => {
-          loading.dismiss();
+         // loading.dismiss();
           if(response.candidateEnableDisable=='Enable'){
             if(response.status=='Open'){
                 if(candidateProperty.linkValidity=='Active'){
 
                   this.restProvider.setCandidate(JsonData);
-                  
-                
-                  
-                  
+                 
                 }else if(candidateProperty.linkValidity=='InActive'){
                     if(candidateProperty.linkExpired == "true"){
                         let toast = {
                           reqName: JsonData.reqDetailsForApp.jobTitle,
                           status : 'interviewLinkExpired'
                         }
-                       // this.navCtrl.push(ShowStatusPage,{msg:toast});
-                        this.router.navigate(['/ShowStatus',{msg:toast}]);
-
+                        //this.navCtrl.push(ShowStatusPage,{msg:toast});
+                      //  this.router.navigate(['/ShowStatus',{msg:toast}]);
+                        this.router.navigate(['ShowStatus'], { queryParams: toast});
+                        console.log('queryParams',{ queryParams: toast});
                     }else{
                         let toast = {
                           reqName: JsonData.reqDetailsForApp.jobTitle,
                           status : 'alreadyGivenInterview'
                         }
-                      //  this.navCtrl.push(ShowStatusPage,{msg:toast});
-                        this.router.navigate(['/ShowStatus',{msg:toast}]);
+                        //this.navCtrl.push(ShowStatusPage,{msg:toast});
+                        this.router.navigate(['ShowStatus'],{queryParams:toast});
+                        console.log('queryParams',{ queryParams: toast});
 
                     }
                 }
@@ -144,7 +146,8 @@ export class SelectRequirementPage {
                   status : 'requirementClosed'
                 }
                // this.navCtrl.push(ShowStatusPage,{msg:toast});
-                this.router.navigate(['/ShowStatus',{msg:toast}]);
+                this.router.navigate(['ShowStatus'],{queryParams:toast});
+                console.log('queryParams',{ queryParams: toast});
 
             }
           }else{
@@ -152,19 +155,20 @@ export class SelectRequirementPage {
               reqName: JsonData.reqDetailsForApp.jobTitle,
               status : 'candidateRemoved'
             }
-            //this.navCtrl.push(ShowStatusPage,{msg:toast});
-            this.router.navigate(['/ShowStatus',{msg:toast}]);
-
+           // this.navCtrl.push(ShowStatusPage,{msg:toast});
+            this.router.navigate(['ShowStatus'],{queryParams:toast});
+                        console.log('queryParams',{ queryParams: toast});
+            
           }
 
         },error => {
             console.log(error);
-            loading.dismiss();
+           // loading.dismiss();
             this.restProvider.showToast("Something went wrong","ERROR");
         });
     },error => {
         console.log(error);
-        loading.dismiss();
+        //loading.dismiss();
         this.restProvider.showToast("Something went wrong","ERROR");
     });
   }

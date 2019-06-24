@@ -21,7 +21,7 @@
     </div>
 
     <!-- <button *ngIf='isOTP' class="loginButton" ion-button full color='light' (click)="login()">Login</button> -->
-    <button *ngIf='isOTP' class="loginButton" ion-button full color='light' routerLink="/SelectRequirement"  routerDirection="forward" (click)="login()">Login</button>
+    <button *ngIf='isOTP' class="loginButton" ion-button full color='light'   (click)="login()">Login</button>
     <div class="regOtp" *ngIf='isOTP'>
       <a (click)="reGenarateOTP()">Resend OTP</a>
     </div>
