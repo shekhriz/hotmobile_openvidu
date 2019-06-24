@@ -8,10 +8,6 @@ const routes: Routes = [
   { path: 'SelectRequirement', loadChildren: './select-requirement/select-requirement.module#SelectRequirementPageModule' },
   { path: 'video-rec', loadChildren: './video-rec/video-rec.module#VideoRecPageModule' },
   { path: 'ShowStatus', loadChildren: './show-status/show-status.module#ShowStatusPageModule' },
-  { path: 'common-header', loadChildren: './component/common-header/common-header.module#CommonHeaderPageModule' },
-  //{ path: 'GeneralQuestion', loadChildren: './general-question/general-question.module#GeneralQuestionPageModule' },
-  //{ path: 'RateSkills', loadChildren: './rate-skills/rate-skills.module#RateSkillsPageModule' },
-  //{ path: 'Question', loadChildren: './question/question.module#QuestionPageModule' },
   { path: 'RateSkills', loadChildren: './rate-skills/rate-skills.module#RateSkillsPageModule' },
   { path: 'question', loadChildren: './question/question.module#QuestionPageModule' },
   { path: 'GeneralQuestion', loadChildren: './general-question/general-question.module#GeneralQuestionPageModule' },
@@ -19,10 +15,7 @@ const routes: Routes = [
   { path: 'VideoTimerModal', loadChildren: './video-timer-modal/video-timer-modal.module#VideoTimerModalPageModule' },
   { path: 'FormAgreement', loadChildren: './form-agreement/form-agreement.module#FormAgreementPageModule' },
   { path: 'PolicyAgreement', loadChildren: './policy-agreement/policy-agreement.module#PolicyAgreementPageModule' },
- 
-  { path: 'button', loadChildren: './button/button.module#ButtonPageModule' },
-  { path: 'example-modal', loadChildren: './example-modal/example-modal.module#ExampleModalPageModule' },
-
+  
   
 
 

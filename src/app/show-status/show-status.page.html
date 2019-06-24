@@ -19,30 +19,30 @@
 </ion-header>
 
 <ion-content padding>
-<div >
+<div *ngIf="messageObj == 'interviewLinkExpired'">
     <h2 style="margin-top: 180px; text-align: center">
         Your interview link has been expired.
-        <!-- <br/><br/>for the Requirement : \"{{messageObj.reqName}}\" -->
+         <br/><br/>for the Requirement : \"{{reqName}}\" 
     </h2>
 </div>
 
-<div *ngIf="messageObj.status == 'alreadyGivenInterview'">
+<div *ngIf="messageObj == 'alreadyGivenInterview'">
     <h2 style="margin-top: 180px; text-align: center">
         Thank You so much. <br/>You have already given the interview.
-        <br/><br/>for the Requirement : \"{{messageObj.reqName}}\"
+        <br/><br/>for the Requirement : \"{{reqName}}\"
     </h2>
 </div>
 
-<div *ngIf="messageObj.status == 'requirementClosed'">
+<div *ngIf="messageObj == 'requirementClosed'">
     <h2 style="margin-top: 180px;text-align: center;">Sorry. This Requirement is Closed. <br/>Please get in touch with us.
-      <br/><br/>for the Requirement : \"{{messageObj.reqName}}\"
+      <br/><br/>for the Requirement : \"{{reqName}}\"
   </h2>
 </div>
 
-<div *ngIf="messageObj.status == 'candidateRemoved'">
+<div *ngIf="messageObj == 'candidateRemoved'">
     <h2 style="margin-top: 180px;text-align: center;">You are not allowed to take the Interview, <br/>since you are no longer associated with this requirement.
       <br/><br/>Thank you
-      <br/><br/>for the Requirement : \"{{messageObj.reqName}}\"
+      <br/><br/>for the Requirement : \"{{reqName}}\"
     </h2>
 </div>
 

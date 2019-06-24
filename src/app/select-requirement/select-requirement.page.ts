@@ -19,7 +19,7 @@ export class SelectRequirementPage {
   tempArray:Array<Object> = [];
   submissionType:string;
   details:any;
-
+  toast:any;
 
   constructor(public navCtrl: NavController,public loadingCtrl: LoadingController,
     public restProvider: RestService,
@@ -61,28 +61,43 @@ export class SelectRequirementPage {
                    if(this.details != null){
                      // this.navCtrl.push(FormAgreementPage,{reqid: this.submissionType,CId:this.data.candidates.candidateId,status:this.details });
                         if(this.details.videoAgreementStatus !=  "true" ){
-                          //this.navCtrl.push(FormAgreementPage,{status:this.details,CId:this.data.candidates.candidateId,reqid:this.submissionType});
-                           this.router.navigate(['/FormAgreement',{status:this.details,CId:this.data.candidates.candidateId,reqid:this.submissionType}]);
-
+                          if(this.getInterviewDetails(JsonData.positionCandidates.candidateLink,JsonData) != null)
+                          {
+                           this.router.navigate(['/ShowStatus']);
+                           }else{
+                             this.router.navigate(['/FormAgreement',{status:this.details,CId:this.data.candidates.candidateId,reqid:this.submissionType}]);
+                           }
                         console.log('videoAgreementStatus',this.details.videoAgreementStatus);
 
                         }else if(this.details.emplyomentStatus !=  "true"){
                          // this.navCtrl.push(PolicyAgreementPage,{status:this.details,cId:this.details.cId,reqId:this.details.reqId});
-                          this.router.navigate(['/PolicyAgreement',{status:this.details,cId:this.details.cId,reqId:this.details.reqId}]);
-
-                        console.log('PolicyAgreementPage',this.details.PolicyAgreementPage);
-
+                          
+                        
+                         if(this.getInterviewDetails(JsonData.positionCandidates.candidateLink,JsonData) != null)
+                         {
+                          this.router.navigate(['/ShowStatus']);
+                          }else{
+                            this.router.navigate(['/PolicyAgreement',{status:this.details,cId:this.details.cId,reqId:this.details.reqId}]);
+                          }
+                        
                         }else if(this.details.videoAgreementStatus ==  "true" && this.details.emplyomentStatus ==  "true"){
-                         this.router.navigate(['/register']);
-
-                          //this.navCtrl.push(RegisterPage);
+                          if(this.getInterviewDetails(JsonData.positionCandidates.candidateLink,JsonData) != null)
+                           {
+                          this.router.navigate(['/ShowStatus']);
+                           }else{
+                            this.router.navigate(['/register']);
+                           }
+                          
                         }
-                        console.log('mmmmmmmmmmmm',this.data.candidates.candidateId);
-                        console.log('hello' );
+                       
                      }else{
                      // this.navCtrl.push(FormAgreementPage,{reqid: this.submissionType,CId:this.data.candidates.candidateId });
-                      this.router.navigate(['/FormAgreement',{reqid: this.submissionType,CId:this.data.candidates.candidateId}]);
-
+                     if(this.getInterviewDetails(JsonData.positionCandidates.candidateLink,JsonData) != null)
+                      {
+                      this.router.navigate(['/ShowStatus']);
+                      }else{
+                        this.router.navigate(['/FormAgreement',{reqid: this.submissionType,CId:this.data.candidates.candidateId}]);
+                      }
                         console.log('dddddddddddd',this.data.candidates.candidateId);
 
                      }
@@ -121,45 +136,50 @@ export class SelectRequirementPage {
                  
                 }else if(candidateProperty.linkValidity=='InActive'){
                     if(candidateProperty.linkExpired == "true"){
-                        let toast = {
+                        this.toast = {
                           reqName: JsonData.reqDetailsForApp.jobTitle,
                           status : 'interviewLinkExpired'
                         }
                         //this.navCtrl.push(ShowStatusPage,{msg:toast});
                       //  this.router.navigate(['/ShowStatus',{msg:toast}]);
-                        this.router.navigate(['ShowStatus'], { queryParams: toast});
-                        console.log('queryParams',{ queryParams: toast});
+                        this.router.navigate(['ShowStatus',{queryParams:this.toast.status,msg:this.toast.reqName}]);
+                        console.log('queryParams',{ queryParams: this.toast.status});
+                        console.log('msg',{ msg: this.toast.reqName});
                     }else{
-                        let toast = {
+                      this.toast = {
                           reqName: JsonData.reqDetailsForApp.jobTitle,
                           status : 'alreadyGivenInterview'
                         }
                         //this.navCtrl.push(ShowStatusPage,{msg:toast});
-                        this.router.navigate(['ShowStatus'],{queryParams:toast});
-                        console.log('queryParams',{ queryParams: toast});
+                        this.router.navigate(['ShowStatus',{queryParams:this.toast.status,msg:this.toast.reqName}]);
+                        console.log('queryParams',{ queryParams: this.toast.status});
+                        console.log('msg',{ msg: this.toast.reqName});
 
                     }
                 }
-            }else if(response.status=='Closed'){
-                let toast = {
-                  reqName: JsonData.reqDetailsForApp.jobTitle,
-                  status : 'requirementClosed'
-                }
-               // this.navCtrl.push(ShowStatusPage,{msg:toast});
-                this.router.navigate(['ShowStatus'],{queryParams:toast});
-                console.log('queryParams',{ queryParams: toast});
+                }else if(response.status=='Closed'){
+                  this.toast = {
+                      reqName: JsonData.reqDetailsForApp.jobTitle,
+                      status : 'requirementClosed'
+                    }
+                  // this.navCtrl.push(ShowStatusPage,{msg:toast});
+                    this.router.navigate(['ShowStatus',{queryParams:this.toast.status,msg:this.toast.reqName}]);
+                    console.log('queryParams',{ queryParams: this.toast.status});
+                    console.log('msg',{ msg: this.toast.reqName});
 
-            }
-          }else{
-            let toast = {
-              reqName: JsonData.reqDetailsForApp.jobTitle,
-              status : 'candidateRemoved'
-            }
-           // this.navCtrl.push(ShowStatusPage,{msg:toast});
-            this.router.navigate(['ShowStatus'],{queryParams:toast});
-                        console.log('queryParams',{ queryParams: toast});
-            
-          }
+                }
+              }else{
+                this.toast = {
+                  reqName: JsonData.reqDetailsForApp.jobTitle,
+                  status : 'candidateRemoved'
+                }
+              // this.navCtrl.push(ShowStatusPage,{msg:toast});
+                this.router.navigate(['ShowStatus',{queryParams:this.toast.status,msg:this.toast.reqName}]);
+                            console.log('queryParams',{ queryParams: this.toast.status});
+                            console.log('msg',{ msg: this.toast.reqName});
+
+                
+              }
 
         },error => {
             console.log(error);

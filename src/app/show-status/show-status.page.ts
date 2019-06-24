@@ -12,6 +12,7 @@ import { RestService } from '../rest';
 export class ShowStatusPage  {
   messageObj:any=[];
   candidate:any;
+  reqName:any;
   constructor(public navCtrl: NavController, public restProvider: RestService,
     public route:ActivatedRoute,
     public router: Router,
@@ -19,8 +20,10 @@ export class ShowStatusPage  {
     ) {
      // this.messageObj = this.navParams.get('msg');
       this.messageObj = route.snapshot.paramMap.get('queryParams');
+      this.reqName = route.snapshot.paramMap.get('msg');
 
       console.log('status-------------', this.messageObj);
+      console.log('reqName-------------', this.reqName);
 
 
       this.candidate = this.restProvider.getCandidate();

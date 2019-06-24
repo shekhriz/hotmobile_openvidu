@@ -18,14 +18,7 @@ import { IonicStorageModule } from '@ionic/storage';
 //import { NumberToTextPipe } from './number-to-text.pipe';
 import { ModalPageModule } from './modal/modal.module';
 
-
 import { VideoTimerModalPageModule } from './video-timer-modal/video-timer-modal.module';
-import { ExampleModalPageModule } from './example-modal/example-modal.module';
-
-
-
-
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,7 +33,7 @@ import { ExampleModalPageModule } from './example-modal/example-modal.module';
     IonicStorageModule.forRoot(),
     ModalPageModule,
     VideoTimerModalPageModule,
-    ExampleModalPageModule
+   
     ],
   providers: [
     StatusBar,

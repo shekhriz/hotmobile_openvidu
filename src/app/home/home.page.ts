@@ -57,7 +57,7 @@ export class HomePage{
 
   async login(){
     let loading =await this.loadingCtrl.create({
-      duration: 15000,
+   //   duration: 20000,
      // content: 'Please wait...'
     });
     if(this.otp == undefined || this.otp == ""){
@@ -74,7 +74,7 @@ export class HomePage{
 
     this.restProvider.verifyOTP(jsonData)
     .then((data:any) => {
-      loading.dismiss();
+     
       if(data == "Email doesn't exist"){
         this.restProvider.showToast("Candidate is not associated with us.","ERROR");
         return
@@ -102,11 +102,10 @@ export class HomePage{
         }
         this.getInterviewDetails(JsonData.positionCandidates.candidateLink,JsonData);
       }else{
-      
+       
         this.restProvider.setRowData(data);
-       
-          this.navCtrl.navigateForward('/SelectRequirement');
-       
+        this.navCtrl.navigateForward('/SelectRequirement');
+        loading.dismiss();
         
         
       }
