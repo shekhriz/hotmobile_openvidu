@@ -61,7 +61,7 @@
       </div>
   
       <div *ngIf='questObjDisplay.type == "video"'>
-        <span class="question">{{questObjDisplay.no}}. {{questObjDisplay.questionName}}</span>
+        <span class="question" *ngIf='this.video_qstn == true'>{{questObjDisplay.no}}. {{questObjDisplay.questionName}}</span>
         <div class="question-container" *ngIf='!questObjDisplay.solved'>
           <div class="tempSpan" *ngIf="publisher">
             <h2>Video Question</h2>
@@ -83,7 +83,7 @@
           <span>Response Submitted</span>
         </div>
         <div class="float-right" *ngIf='this.status =="started"' (click)="leaveSession()" >
-          <button ion-button class="bc-info" [disabled]="!disabled" *ngIf='this.status !="available"' >Save</button>
+          <button ion-button class="bc-info" [disabled]="!disabled" *ngIf='this.status !="available" && !questObjDisplay.solved && questObjDisplay.type == "video"' >Save</button>
         </div> 
       </div>
     

@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar hideBackButton>
+<ion-header style='background: #2c2e2f;'>
+  <ion-toolbar hideBackButton >
     <div class="header">
       <div class="left"></div>
       <div class="center">
@@ -11,7 +11,7 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content padding style="background: #fff;">
     <div class="modal_body" *ngIf='code == 1'>
       <div class="heading">
         <h1>How it works</h1>
@@ -23,7 +23,7 @@
        </video>
       </div>
     </div>
-    <div class="modal_body" *ngIf='code == 2'>
+      <div class="modal_body" *ngIf='code == 2'>
       <div class="heading">
         <h1>Do's and Dont's</h1>
       </div>
@@ -60,10 +60,13 @@
             <ion-label floating>Message<span class="astrick">*</span></ion-label>
              <ion-textarea rows="2" maxLength="100" [(ngModel)]="message"></ion-textarea>
           </ion-item>
-          <div class="submitBTN">
+          <!-- <div class="submitBTN">
             <button ion-button full color='dark' (click)="savaData()">Submit</button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
 </ion-content>
+<ion-footer>
+  <button ion-button full color='dark' (click)="savaData()">Submit</button>
+</ion-footer>

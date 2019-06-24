@@ -54,7 +54,7 @@ export class RegisterPage  {
   //   });
   //   await modalPage.present();
   // }
- async openModal(mCode) {
+  async openModal(mCode) {
     this.platform.ready().then((readySource) => {
       if(this.vid1 != null){
         this.vid1.pause();
@@ -67,17 +67,41 @@ export class RegisterPage  {
     var data = {
       code : mCode
     };
-    
+
    console.log('mCode',mCode);
 
     const modal = await this.modalCtrl.create({
       component: ModalPage,
     componentProps: {value: mCode}
-    
-    
+
+
     });
   modal.present();
   }
+//  async openModal(mCode) {
+//     this.platform.ready().then((readySource) => {
+//       if(this.vid1 != null){
+//         this.vid1.pause();
+//       }
+//       if(this.vid2 != null){
+//         this.vid2.pause();
+//       }
+//     });
+
+//     var data = {
+//       code : mCode
+//     };
+    
+//    console.log('mCode',mCode);
+
+//     const modal = await this.modalCtrl.create({
+//       component: ModalPage,
+//     componentProps: {value: mCode}
+    
+    
+//     });
+//   modal.present();
+//   }
   gotoSkillsRatePage(){
     this.platform.ready().then((readySource) => {
       if(this.vid1 != null){

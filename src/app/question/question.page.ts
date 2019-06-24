@@ -76,6 +76,7 @@ export class QuestionPage {
   time = "00:00.00"
   status:string;
   disabled:boolean=false;
+  video_qstn:boolean;
   constructor(public navCtrl: NavController,public restProvider: RestService,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
@@ -138,22 +139,13 @@ ngOnDestroy() {
 
 async joinSession(num) {
  
-  let loading =await this.loadingCtrl.create({
-    duration: 3000,
-    showBackdrop:false,
-    cssClass:'sa',
-    spinner: null,
-    message:`
-    <div class="custom-spinner-container">
-    <img class="loading" width="50px" height="50px" src="assets/images/loader2.gif" />
-  </div>`
-  });
-  await loading.present(); 
+  
+  
     this.activeBTN = num;
     this.OV = new OpenVidu();
     console.log('this.OV',this.OV);
 
-
+   
     this.session = this.OV.initSession();
 
   
@@ -168,8 +160,14 @@ async joinSession(num) {
       
         this.deleteSubscriber(event.stream.streamManager);
     });
-
-  
+    let loading =await this.loadingCtrl.create({
+     // duration: 3000,
+      showBackdrop:false,
+      cssClass:'sa',
+      spinner: 'crescent',
+      message:'Please wait ...'
+    });
+    await loading.present(); 
     this.getToken().then((token) => {
      
         this.session
@@ -184,7 +182,9 @@ async joinSession(num) {
                           'Content-Type': 'application/json',
                       }),
                   };
+                  
                   return this.httpClient
+                  
                       .post(this.OPENVIDU_SERVER_URL+'/api/recordings/start', body, options)
                       .pipe(
                           catchError((error) => {
@@ -200,6 +200,10 @@ async joinSession(num) {
                           this.status =this.record_details.status;
                           console.log('record_details',this.record_details);
 
+                          this.video_qstn = true;
+                          console.log('video_qstn',this.video_qstn);
+                          
+
                           if(this.running) return;
                           if (this.timeBegan === null) {
                              // this.reset();
@@ -214,7 +218,7 @@ async joinSession(num) {
                             console.log('this.recordingid',this.recording_id);
                             console.log('this.status',this.status);
 
-                  
+                          loading.dismiss();
                           resolve(response['token']);
 
                           if (this.platform.is('cordova')) {
@@ -239,7 +243,7 @@ async joinSession(num) {
             .catch(error => {
                 console.log('There was an error connecting to the session:', error.code, error.message);
             });
-            loading.dismiss();    
+            //    
     });
     this.disabled= true;
 }
@@ -513,7 +517,8 @@ leaveSession(sessionId) {
           }
           console.log('this.video_url',video_url);
           console.log('this.json_obj',json_obj);
-      
+
+          this.video_qstn = false;
           this.restProvider.saveVideoRecording(json_obj)
           .then(data => {
           
@@ -728,6 +733,7 @@ this.time =
   toggleClass(item){
     if(!item.qstatus){
         item.displayed = true;
+        
         console.log('previous que:',this.questObjDisplay);
         this.seen.push(this.questObjDisplay.no);
       if(this.questObjDisplay.type != "video" && this.questObjDisplay.response != ''){
@@ -744,6 +750,7 @@ this.time =
       console.log('current que: ',this.questObjDisplay);
       if(this.questObjDisplay.type == "video" && !this.questObjDisplay.solved){ 
        // this.videoRecordingTimer(this.questObjDisplay.questionName);
+       this.video_qstn = true;
       }
       Object.keys(this.questions).forEach(key=> {
         if(item.no != this.questions[key].no){
@@ -804,12 +811,12 @@ this.time =
   //   });
   //   modalPage.onDidDismiss(data => {
   //     if(data == "START-RECORDING"){
-  //       this.startRecording();
+  //       this.joinSession(num);
   //     }
   //   });
   //   modalPage.present();
   // }
-  // async videoRecordingTimer(quest) {
+  // async videoRecordingTimer(quest,num) {
   //   var modal = await this.modalCtrl.create({
   //     cssClass:"my-modal",
   //     component: VideoTimerModalPage,
@@ -820,7 +827,8 @@ this.time =
     
   //   modal.onDidDismiss().then((data) => {
   //         if(data == "START-RECORDING"){
-  //           this.startRecording();
+  //       this.joinSession(num);
+      
   //         }
   //         console.log('modal',data);
   //       });
@@ -828,6 +836,7 @@ this.time =
   //   return await modal.present();
     
   // }
+
  async getTechnicalQuestions(uniqueId){
     let loading =await this.loadingCtrl.create({
      // content: 'Please wait...'
