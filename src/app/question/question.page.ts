@@ -58,12 +58,12 @@ export class QuestionPage {
   recording_url:string;
   record_details:any;
   streamId: string;
-  
+
   sessionId: string;
   createdAt: number;
   url: string;
   mySessionId2:any;
-  
+
   activeBTN = 1;
 
 
@@ -88,7 +88,7 @@ export class QuestionPage {
              private platform: Platform,
              private splashScreen: SplashScreen,
              private statusBar: StatusBar,
-              
+
 
               ) {
                 this.candidate = this.restProvider.getCandidate();
@@ -97,7 +97,7 @@ export class QuestionPage {
                 this.initializeApp();
                this.generateParticipantInfo();
 
-               
+
   }
 
   ionViewDidLoad() {
@@ -128,7 +128,7 @@ initializeAdapterIosRtc() {
 beforeunloadHandler() {
     // On window closed leave session
    // this.leaveSession();
-    
+
 }
 
 ngOnDestroy() {
@@ -137,7 +137,7 @@ ngOnDestroy() {
 }
 
 async joinSession(num) {
- 
+
   let loading =await this.loadingCtrl.create({
     duration: 3000,
     showBackdrop:false,
@@ -148,7 +148,7 @@ async joinSession(num) {
     <img class="loading" width="50px" height="50px" src="assets/images/loader2.gif" />
   </div>`
   });
-  await loading.present(); 
+  await loading.present();
     this.activeBTN = num;
     this.OV = new OpenVidu();
     console.log('this.OV',this.OV);
@@ -156,22 +156,22 @@ async joinSession(num) {
 
     this.session = this.OV.initSession();
 
-  
+
     this.session.on('streamCreated', (event: StreamEvent) => {
-       
+
         const subscriber: Subscriber = this.session.subscribe(event.stream, undefined);
         this.subscribers.push(subscriber);
     });
 
-   
+
     this.session.on('streamDestroyed', (event: StreamEvent) => {
-      
+
         this.deleteSubscriber(event.stream.streamManager);
     });
 
-  
+
     this.getToken().then((token) => {
-     
+
         this.session
             .connect(token, { clientData: this.myUserName })
             .then(() => {
@@ -192,7 +192,7 @@ async joinSession(num) {
                               return observableThrowError(error);
                           }),
                       )
-                      
+
                       .subscribe((response) => {
                           console.log('response',response);
                           this.record_details = response;
@@ -214,7 +214,7 @@ async joinSession(num) {
                             console.log('this.recordingid',this.recording_id);
                             console.log('this.status',this.status);
 
-                  
+
                           resolve(response['token']);
 
                           if (this.platform.is('cordova')) {
@@ -232,19 +232,19 @@ async joinSession(num) {
                               this.initPublisher();
                           }
                       });
-                      
+
               });
-                 
+
             })
             .catch(error => {
                 console.log('There was an error connecting to the session:', error.code, error.message);
             });
-            loading.dismiss();    
+            loading.dismiss();
     });
     this.disabled= true;
 }
 
-    
+
 
 initPublisher() {
     // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
@@ -258,7 +258,7 @@ initPublisher() {
         frameRate: 30, // The frame rate of your video
         insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
         mirror: true ,
-         
+
         // Whether to mirror your local video or not
     });
 
@@ -270,8 +270,8 @@ initPublisher() {
         this.stream = this.publisher.stream;
         this.mediaStream =  this.stream.mediaStream;
        // this.recordingid = this.mediaStream.id;
-        
-       
+
+
         console.log('this.publisher',this.publisher);
         console.log('this.stream',this.stream);
         //console.log('this.recordingid',this.recordingid);
@@ -371,7 +371,7 @@ async presentSettingsAlert() {
                 type: 'text',
                 value: 'https://demos.openvidu.io:4443/',
                 placeholder: 'URL',
-               
+
             },
             {
                 name: 'secret',
@@ -390,7 +390,7 @@ async presentSettingsAlert() {
                 handler: data => {
                     this.OPENVIDU_SERVER_URL = data.url;
                     this.OPENVIDU_SERVER_SECRET = data.secret;
-                    
+
                 }
             }
         ]
@@ -513,29 +513,29 @@ leaveSession(sessionId) {
           }
           console.log('this.video_url',video_url);
           console.log('this.json_obj',json_obj);
-      
+
           this.restProvider.saveVideoRecording(json_obj)
           .then(data => {
-          
+
             console.log('video data-----',data);
             console.log('video video_url-----',video_url);
 
             this.questObjDisplay.solved = true;
             this.succ.push(this.questObjDisplay.no);
-           
+
             this.restProvider.showToast("Response saved successfully.","SUCCESS");
             this.saveResponse();
           },error => {
-              
+
               this.restProvider.showToast("Something went wrong.","ERROR");
               console.log(error);
           });
           this.disabled= false;
 
-          
+
           this.running = false;
           this.timeStopped = new Date();
-          clearInterval(this.started);   
+          clearInterval(this.started);
           this.stoppedDuration = 0;
           this.timeBegan = null;
           this.timeStopped = null;
@@ -545,7 +545,7 @@ leaveSession(sessionId) {
           if (this.session) {
               this.session.disconnect();
           }
-          
+
           // Empty all properties...
           this.subscribers = [];
           delete this.publisher;
@@ -559,7 +559,7 @@ leaveSession(sessionId) {
 
 });
 
- 
+
 }
 
 zeroPrefix(num, digit) {
@@ -579,7 +579,7 @@ clockRunning(){
 this.time =
   this.zeroPrefix(hour, 2) + ":" +
   this.zeroPrefix(min, 2) + ":" +
-  this.zeroPrefix(sec, 2) 
+  this.zeroPrefix(sec, 2)
   //this.zeroPrefix(ms, 3);
 };
 ///////////////////////
@@ -611,7 +611,7 @@ this.time =
   }
 
   // start video recording
-  
+
 
 
 ///////////////vdo rec end//////////
@@ -640,13 +640,13 @@ this.time =
       mFlag = flag;
     }
     let loading =await this.loadingCtrl.create({
-      //content: 'Please wait...' 
+      //content: 'Please wait...'
     });
     loading.present();
     var jsonData = {
       "questionId": this.questObjDisplay.id,
       "questionType": this.questObjDisplay.type,
-      "response": this.questObjDisplay.response  
+      "response": this.questObjDisplay.response
     }
     this.restProvider.saveTechnicalQuestion(this.candidate.positionCandidates.candidateLink,jsonData)
     .then(data => {
@@ -654,7 +654,7 @@ this.time =
       this.succ.push(this.questObjDisplay.no);
       loading.dismiss();
       this.restProvider.showToast("Response saved successfully.","SUCCESS");
-      if(mFlag){  
+      if(mFlag){
         this.saveResponse();
       }
     },error => {
@@ -666,13 +666,13 @@ this.time =
 
  async uploadTechnicalQuestionFromToggle(data){
     let loading =await this.loadingCtrl.create({
-      //content: 'Please wait...' 
+      //content: 'Please wait...'
     });
     loading.present();
     var jsonData = {
       "questionId": data.id,
       "questionType": data.type,
-      "response": data.response  
+      "response": data.response
     }
     this.restProvider.saveTechnicalQuestion(this.candidate.positionCandidates.candidateLink,jsonData)
     .then(data => {
@@ -735,14 +735,14 @@ this.time =
         this.succ.push(this.questObjDisplay.no);
         this.uploadTechnicalQuestionFromToggle(this.questObjDisplay);
       }else{
-      } 
-        
+      }
+
       item.qstatus = true;
-      this.currentQues = item.no; 
+      this.currentQues = item.no;
       this.questObjDisplay = this.questObj[this.currentQues];
-      this.questObjDisplay.response = '';  
+      this.questObjDisplay.response = '';
       console.log('current que: ',this.questObjDisplay);
-      if(this.questObjDisplay.type == "video" && !this.questObjDisplay.solved){ 
+      if(this.questObjDisplay.type == "video" && !this.questObjDisplay.solved){
        // this.videoRecordingTimer(this.questObjDisplay.questionName);
       }
       Object.keys(this.questions).forEach(key=> {
@@ -763,8 +763,8 @@ this.time =
     }
     this.questObjDisplay = this.questObj[this.currentQues];
     this.questObjDisplay.response = '';
-    if(this.questObjDisplay.type == 'video' && !this.questObjDisplay.solved){ 
-      //this.videoRecordingTimer(this.questObjDisplay.questionName);  
+    if(this.questObjDisplay.type == 'video' && !this.questObjDisplay.solved){
+      //this.videoRecordingTimer(this.questObjDisplay.questionName);
     }
     Object.keys(this.questions).forEach(key=> {
       if(this.currentQues == this.questions[key].no){
@@ -815,18 +815,18 @@ this.time =
   //     component: VideoTimerModalPage,
   //     showBackdrop:true,
   //     componentProps: { text:quest }
-      
+
   //   });
-    
+
   //   modal.onDidDismiss().then((data) => {
   //         if(data == "START-RECORDING"){
   //           this.startRecording();
   //         }
   //         console.log('modal',data);
   //       });
-       
+
   //   return await modal.present();
-    
+
   // }
  async getTechnicalQuestions(uniqueId){
     let loading =await this.loadingCtrl.create({
@@ -844,15 +844,15 @@ this.time =
         }
        // this.navCtrl.push(ShowStatusPage,{msg:toast});
          this.router.navigate(['/ShowStatus']);
-        
+
         return;
       }
       this.questions = data;
 
       Object.keys(this.questions).forEach(key=> {
         this.questions[key].no = parseInt(key)+1;
-        this.questions[key].displayed = false;  
-        this.questions[key].solved = false;  
+        this.questions[key].displayed = false;
+        this.questions[key].solved = false;
         if(key == "0"){
           this.questions[key].qstatus = true;
         }else{
@@ -866,9 +866,9 @@ this.time =
       this.questObjDisplay = this.questObj[1];
       this.questObjDisplay.response = '';
       this.questObjDisplay.qstatus = true;
-      this.questObjDisplay.displayed = true;  
-      if(this.questObjDisplay.type == 'video' && !this.questObjDisplay.solved){ 
-       // this.videoRecordingTimer(this.questObjDisplay.questionName);  
+      this.questObjDisplay.displayed = true;
+      if(this.questObjDisplay.type == 'video' && !this.questObjDisplay.solved){
+       // this.videoRecordingTimer(this.questObjDisplay.questionName);
       }
 
     },error => {
@@ -878,11 +878,10 @@ this.time =
     });
   }
 
- 
+
 
   gotovideo(){
     this.router.navigate(['/video-rec']);
 
   }
 }
-

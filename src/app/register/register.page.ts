@@ -15,7 +15,7 @@ export class RegisterPage  {
   candidate:any;
   vid1:any;
   vid2:any;
-  
+
   constructor(public navCtrl: NavController,public restProvider: RestService, public modalCtrl : ModalController,
   public alertCtrl: AlertController,
   public platform: Platform,
@@ -28,11 +28,11 @@ export class RegisterPage  {
     this.platform.ready().then((readySource) => {
       this.vid1 = document.getElementById("myVideo1");
       this.vid2 = document.getElementById("myVideo2");
-    }); 
+    });
   }
 
-  // async openModal(mCode){    
-   
+  // async openModal(mCode){
+
   //   this.platform.ready().then((readySource) => {
   //     if(this.vid1 != null){
   //       this.vid1.pause();
@@ -67,14 +67,14 @@ export class RegisterPage  {
     var data = {
       code : mCode
     };
-    
+
    console.log('mCode',mCode);
 
     const modal = await this.modalCtrl.create({
       component: ModalPage,
     componentProps: {value: mCode}
-    
-    
+
+
     });
   modal.present();
   }
@@ -96,7 +96,6 @@ export class RegisterPage  {
       if(status == null || status == "general" || status == "new"){
          //this.navCtrl.push(GeneralQuestionPage);
          this.router.navigate(['/GeneralQuestion']);
-
       }else if(status == "skills"){
         //this.navCtrl.push(RateSkillsPage);
         this.router.navigate(['/RateSkills']);
@@ -104,7 +103,6 @@ export class RegisterPage  {
       }else if(status == "technical"){
         //this.navCtrl.push(QuestionPage);
         this.router.navigate(['/question']);
-
       }
     },error => {
         console.log(error);
@@ -137,4 +135,3 @@ export class RegisterPage  {
   }
 
 }
-
